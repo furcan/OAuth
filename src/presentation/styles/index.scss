@@ -1,0 +1,109 @@
+@import "variables";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $font-lineheight-base;
+  font-weight: $font-weight-base;
+  letter-spacing: 0.25px;
+  color: $color-dark;
+  background: $color-light;
+}
+
+button,
+a {
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  outline: none;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+img {
+  font-size: 8px;
+  max-width: 100%;
+  height: auto;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input,
+select,
+option {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+p {
+  white-space: pre-line;
+  word-break: break-all;
+  word-break: break-word;
+}
+
+::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba($color-black, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($color-black, 0.2);
+  cursor: pointer;
+}
+
+div {
+  scrollbar-color: rgba($color-black, 0.2) rgba($color-black, 0.05);
+  scrollbar-width: thin;
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
