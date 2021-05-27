@@ -1,5 +1,6 @@
 {
   "name": "oauth",
+  "homepage": "https://furcan.github.io/OAuth/",
   "version": "0.0.1-beta.01",
   "private": true,
   "devDependencies": {

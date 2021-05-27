@@ -12,6 +12,12 @@ const about = `Sign in with ${google || facebook || apple}`;
 
 ---
 
+Version: 0.0.1-beta.01\
+Demo: [https://furcan.github.io/OAuth/](https://furcan.github.io/OAuth/)\
+License: MIT - https://opensource.org/licenses/MIT
+
+---
+
 - [x] Google
 - [ ] Facebook (TODO)
 - [ ] Apple (TODO)
