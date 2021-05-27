@@ -9,5 +9,5 @@ Sign in with ${google || facebook || apple}
 
 
 - [x] Google
-- [] Facebook (TODO)
-- [] Apple (TODO)
+- [ ] Facebook (TODO)
+- [ ] Apple (TODO)
