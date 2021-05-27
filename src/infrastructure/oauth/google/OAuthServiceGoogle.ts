@@ -96,35 +96,12 @@ declare global {
 // IOAuthServiceGoogle: begin
 let googleOAuth2Instance: IGoogleOAuth2Instance | null = null;
 
-type TGoogleReturnData = {
-  authResponse: IGoogleAuthResponse;
-  basicProfile: IGoogleBasicProfile;
-} | boolean;
-const googleReturnData = (): TGoogleReturnData => {
-  if (googleOAuth2Instance) {
-    const authResponse: IGoogleAuthResponse = googleOAuth2Instance.currentUser.get().getAuthResponse();
-    const basicProfile: IGoogleGetBasicProfile = googleOAuth2Instance.currentUser.get().getBasicProfile();
-    return {
-      authResponse,
-      basicProfile: {
-        id: basicProfile.getId(),
-        name: basicProfile.getName(),
-        given_name: basicProfile.getGivenName(),
-        family_name: basicProfile.getFamilyName(),
-        image_url: basicProfile.getImageUrl(),
-        email: basicProfile.getEmail(),
-      },
-    };
-  }
-  return false;
-};
-
 interface IOAuthServiceGoogleInit {
   clientId: string;
   uxMode?: 'popup' | 'redirect';
   redirectUrl?: string;
 }
-const oAuthServiceGoogleInitAndLoadAndGetInstance = ({ clientId, uxMode, redirectUrl }: IOAuthServiceGoogleInit) => new Promise((res, rej) => {
+const oAuthServiceGoogleInitAndLoadAndGetInstance = ({ clientId, uxMode, redirectUrl }: IOAuthServiceGoogleInit): Promise<boolean> => new Promise((resolve, reject) => {
   const scriptId = 'OAuthGoogleScriptElement';
   if (!window.document.getElementById(scriptId)) {
     // create script range and append to the doc head
@@ -157,16 +134,16 @@ const oAuthServiceGoogleInitAndLoadAndGetInstance = ({ clientId, uxMode, redirec
           googleOAuth2Instance = window.gapi.auth2.getAuthInstance();
 
           // resolve
-          res(true);
+          resolve(true);
         });
       };
     } else {
-      rej(false);
+      reject(false);
     }
   } else if (googleOAuth2Instance) {
-    res(true);
+    resolve(true);
   } else {
-    rej(false);
+    reject(false);
   }
 });
 
@@ -175,19 +152,46 @@ export const oAuthServiceGoogleIsSignedIn = (): TOAuthServiceGoogleIsSignedIn =>
   return googleOAuth2Instance !== null && googleOAuth2Instance.isSignedIn.get();
 };
 
-type TOAuthServiceGoogleSignIn = TGoogleReturnData | undefined;
+type TOAuthServiceGoogleSignIn = {
+  authResponse: IGoogleAuthResponse;
+  basicProfile: IGoogleBasicProfile;
+} | null;
+const googleReturnData = (): TOAuthServiceGoogleSignIn => {
+  if (googleOAuth2Instance) {
+    const authResponse: IGoogleAuthResponse = googleOAuth2Instance.currentUser.get().getAuthResponse();
+    const basicProfile: IGoogleGetBasicProfile = googleOAuth2Instance.currentUser.get().getBasicProfile();
+    return {
+      authResponse,
+      basicProfile: {
+        id: basicProfile.getId(),
+        name: basicProfile.getName(),
+        given_name: basicProfile.getGivenName(),
+        family_name: basicProfile.getFamilyName(),
+        image_url: basicProfile.getImageUrl(),
+        email: basicProfile.getEmail(),
+      },
+    };
+  }
+  return null;
+};
+
 export const oAuthServiceGoogleSignInAsync = async ({ clientId, uxMode, redirectUrl }: IOAuthServiceGoogleInit): Promise<TOAuthServiceGoogleSignIn> => {
   if (!oAuthServiceGoogleIsSignedIn()) {
-    await oAuthServiceGoogleInitAndLoadAndGetInstance({ clientId, uxMode, redirectUrl });
-    if (googleOAuth2Instance) {
-      await googleOAuth2Instance.signIn();
-      return googleReturnData();
+    try {
+      const go = await oAuthServiceGoogleInitAndLoadAndGetInstance({ clientId, uxMode, redirectUrl });
+      if (go && googleOAuth2Instance) {
+        await googleOAuth2Instance.signIn();
+        return googleReturnData();
+      } else {
+        throw Error();
+      }
+    } catch {
+      return null;
     }
   } else if (googleOAuth2Instance) {
     return googleReturnData();
-  } else {
-    throw Error();
   }
+  return null;
 };
 
 type TOAuthServiceGoogleSignOut = boolean;
