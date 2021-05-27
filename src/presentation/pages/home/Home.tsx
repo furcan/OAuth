@@ -124,7 +124,7 @@ function Home(): React.ReactElement {
         <div className={`home__content`}>
           <div className={`home__signin`}>
             <div className={`home__signin__banner ${userState.isAuthenticated ? 'state--authenticated' : ''}`}>
-              <img className={`home__signin__banner__img`} src={`${process.env.PUBLIC_URL}/content/images/oauth.png`} width="640" height="420" alt="OAuth" />
+              <img className={`home__signin__banner__img`} src={`${process.env.PUBLIC_URL}/content/images/signin.png`} width="640" height="420" alt="OAuth" />
               <img className={`home__signin__banner__avatar`} width="100" height="100" alt={userState.name} src={userState.avatar} />
             </div>
 
