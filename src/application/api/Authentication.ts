@@ -33,7 +33,7 @@ export class Auth {
         const apiResponseData: IApiResponse | boolean = apiResponse.ok ? await apiResponse.json() : false;
         if (apiResponseData instanceof Object && apiResponseData.success) {
           // functions, etc...
-          console.log(apiResponseData.innderData);
+          console.log(apiResponseData.innerData);
           return true;
         } else {
           throw Error();

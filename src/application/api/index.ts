@@ -3,7 +3,7 @@ import { Auth } from 'application/api/Authentication';
 interface IApiResponse {
   success: boolean;
   message: string
-  innderData: string; // etc...
+  innerData: string; // etc...
 }
 
 export {
