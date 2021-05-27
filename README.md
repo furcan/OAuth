@@ -3,10 +3,14 @@
 </p>
 
 # OAuth
-Sign in with ${google || facebook || apple}
+
+```js
+
+const about = `Sign in with ${google || facebook || apple}`;
+
+```
 
 ---
-
 
 - [x] Google
 - [ ] Facebook (TODO)
